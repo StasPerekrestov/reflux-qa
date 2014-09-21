@@ -1,18 +1,12 @@
+/** @jsx React.DOM */
 /*jshint node:true, browser: true*/
 
-var Rx          = require('rx'),
-    React       = require('react/addons'),
-    TodoStore   = require('./store/todoStore'),
-    TodoActions = require('./actions/todoActions'),
-    MainView    = require('./views/mainView.jsx');
+var React = require('react');
+debugger;
+var TestComponent =  React.createClass({
+	render: function(){
+		return  (<span>hello again</span>);
+	}
+});
 
-
-var todoStore = new TodoStore('react-todos');
-
-//register our actions against our store updates stream
-TodoActions.register(todoStore.updates);
-
-React.renderComponent(
-    MainView({ todoStore: todoStore }),
-    document.getElementById('todoapp')
-);
+React.renderComponent(<TestComponent/>, document.getElementById("app"));

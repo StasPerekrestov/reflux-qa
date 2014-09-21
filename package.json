@@ -1,7 +1,29 @@
 {
+  "main": "./public/js/app.js",
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browser": {
+    "react": "./bower_components/react/react.min.js"
+  },
+  "browserify-shim": {
+    "react": "react"
+  },
   "dependencies": {
-    "browserify": "^5.12.0",
     "node-static": "^0.7.5",
     "uniq": "^1.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^5.12.0",
+    "browserify-shim": "^3.7.0",
+    "reactify": "~0.14.0",
+    "watchify": "^1.0.2"
+  },
+  "scripts": {
+    "start": "watchify -t reactify -o ./public/bundle.js -v -d ./public/js/app.js",
+    "build": "NODE_ENV=production browserify . | uglifyjs -cm > js/bundle.min.js",
+    "test": "jest"
   }
 }
