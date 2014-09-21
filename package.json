@@ -9,7 +9,9 @@
     "react": "./bower_components/react/react.min.js"
   },
   "browserify-shim": {
-    "react": "react"
+    "react": {
+      "exports": "React"
+    }
   },
   "dependencies": {
     "node-static": "^0.7.5",

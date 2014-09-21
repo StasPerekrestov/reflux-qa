@@ -1,9 +1,10 @@
 var static = require('node-static'),
-    sys = require('util');
+    sys = require('util'),
+    http = require('http');
 
 var fileServer = new static.Server('./public');
 
-require('http').createServer(function (request, response) {
+http.createServer(function (request, response) {
     request.addListener('end', function () {
         fileServer.serve(request, response, function (err, result) {
             if (err) { // There was an error serving the file
