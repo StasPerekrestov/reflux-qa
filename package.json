@@ -6,16 +6,19 @@
     ]
   },
   "browser": {
-    "react": "./bower_components/react/react.min.js"
+    "react": "./bower_components/react/react.min.js",
+    "react-bootstrap": "./bower_components/react-bootstrap/react-bootstrap.min.js"
   },
   "browserify-shim": {
     "react": {
       "exports": "React"
+    },
+    "react-bootstrap": {
+      "exports" : "ReactBootstrap"
     }
   },
   "dependencies": {
-    "node-static": "^0.7.5",
-    "uniq": "^1.0.1"
+    "node-static": "^0.7.5"
   },
   "devDependencies": {
     "browserify": "^5.12.0",
