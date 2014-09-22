@@ -14,7 +14,7 @@
       "exports": "React"
     },
     "react-bootstrap": {
-      "exports" : "ReactBootstrap"
+      "exports": "ReactBootstrap"
     }
   },
   "dependencies": {
@@ -23,6 +23,8 @@
   "devDependencies": {
     "browserify": "^5.12.0",
     "browserify-shim": "^3.7.0",
+    "gulp": "^3.8.8",
+    "gulp-browserify": "^0.5.0",
     "reactify": "~0.14.0",
     "watchify": "^1.0.2"
   },
