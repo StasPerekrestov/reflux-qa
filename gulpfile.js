@@ -31,6 +31,7 @@ function browserifyShare() {
 		cache: {},
 		packageCache: {},
 		fullPaths: true,
+		debug: true,
 		transform: ['reactify']
 	});
 
