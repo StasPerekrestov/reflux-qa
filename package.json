@@ -18,7 +18,9 @@
     }
   },
   "dependencies": {
-    "node-static": "^0.7.5"
+    "immutable": "^2.0.17",
+    "node-static": "^0.7.5",
+    "reflux": "^0.1.11"
   },
   "devDependencies": {
     "browserify": "^5.12.0",
