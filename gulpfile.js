@@ -26,13 +26,17 @@ gulp.task('browserify-watch', function(){
   browserifyShare();
 });
 
+var reactifyES6 = function(file) {
+  return reactify(file, {'es6': true});
+};
+
 function browserifyShare() {
 	var b = browserify({
 		cache: {},
 		packageCache: {},
 		fullPaths: true,
 		debug: true,
-		transform: ['reactify']
+		transform: [reactifyES6]
 	});
 
 	if (watch) {
