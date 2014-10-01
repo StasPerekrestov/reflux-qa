@@ -5,8 +5,8 @@ var React = require('react'),
     Reflux = require('reflux'),
     Button = require('react-bootstrap').Button,
     Panel = require('react-bootstrap').Panel,
-    ListGroup = require('react-bootstrap').ListGroup,
-    ListGroupItem = require('react-bootstrap').ListGroupItem,
+    TabbedArea = require('react-bootstrap').TabbedArea,
+    TabPane = require('react-bootstrap').TabPane,
     qaStore = require('./qa-store.js'),
     actions = require('./qa-actions.js');
     Immutable = require('immutable'),
@@ -23,7 +23,7 @@ var QA = React.createClass({
     	return {qa: Immutable.Map()};
     },
     handleDoActionClick: function(){
-    	actions.load();
+
     },
     render: function() {
     	var title = (<h3>Test</h3>);
@@ -35,18 +35,19 @@ var QA = React.createClass({
 		      </Panel>
 		    </div>
 		  );
-        var listgroupInstance = (
-                    <ListGroup>
-                     {this.state.qa.map(q => (<ListGroupItem>
-                                                    <Group group={q} />
-                                               </ListGroupItem>)).toArray()}
-                    </ListGroup>
+        var quesionGroups = (
+                    <TabbedArea>
+                     {this.state.qa.map((q, gName) => (<TabPane tab={gName} key={gName}>
+                                                            <Group group={q} />
+                                                        </TabPane>)).toArray()}
+                    </TabbedArea>
                   );
         return (<div>
                 {panelsInstance}
-                {listgroupInstance}
+                {quesionGroups}
                 </div>);
     }
 });
 
 React.renderComponent(<QA/>, document.getElementById("app"));
+actions.load();

@@ -20,7 +20,7 @@ var QAStore = Reflux.createStore({
 	init: function() {
 		this.questions = Immutable
 			.fromJS({
-				"identification": {
+				"Identification": {
 					"123": {
 						name: "insured",
 						type: "text",
@@ -38,8 +38,20 @@ var QAStore = Reflux.createStore({
 					}
 				},
 				"section attrached": [],
-				"Policy Information": [],
-				"Nature of Business": []
+				"Policy Information": {
+					567: {
+						name: "expiration date",
+						type: "text",
+						value: ""
+					}
+				},
+				"Nature of Business": {
+					601: {
+						name: "A property",
+						type: "text",
+						value: ""
+					}
+				}
 			}).filter(function(m) {
 				return m.count() > 0;
 			}).toMap();
@@ -48,7 +60,7 @@ var QAStore = Reflux.createStore({
         this.listenTo(actions.questionUpdated, this.questionUpdatedCallback)
     },
     questionUpdatedCallback: function(id, newVal){
-    	this.questions = this.questions.updateIn(["identification", id], q => q.set("value", newVal));
+    	this.questions = this.questions.updateIn(["Identification", id], q => q.set("value", newVal));
     	this.trigger(this.questions);
     },
     reloadCallback: function() {
