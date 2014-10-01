@@ -1,16 +1,22 @@
 /** @jsx React.DOM */
 var React = require('react'),
-	Input = require('react-bootstrap').Input;
+	Input = require('react-bootstrap').Input,
+	actions = require('./qa-actions.js');
 
 var Editor = React.createClass({
+	handleValueChange: function(e){
+		var newVal = e.target.value;
+		actions.questionUpdated(this.props.question.get('id'), newVal);
+	},
 	render: function(){
-		debugger;
+		var q = this.props.question;
 		return (<div>
 			        <Input
 				          type="text"
-				          value={this.props.question}
+				          value={q.get('value')}
 				          placeholder="Enter text"
-				          label="Working example with validation"
+				          label={q.get('name')}
+				          onChange={this.handleValueChange}
 				          />
           		</div>);
 	}

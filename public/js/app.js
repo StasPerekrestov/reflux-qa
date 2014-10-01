@@ -10,7 +10,7 @@ var React = require('react'),
     qaStore = require('./qa-store.js'),
     actions = require('./qa-actions.js');
     Immutable = require('immutable'),
-    Editor = require('./q-editor.js');
+    Group = require('./q-group.js');
 
 var QA = React.createClass({
     mixins: [Reflux.listenTo(qaStore, "onLoadChange")],
@@ -37,7 +37,9 @@ var QA = React.createClass({
 		  );
         var listgroupInstance = (
                     <ListGroup>
-                     {this.state.qa.map(q => (<ListGroupItem><Editor question={q} /></ListGroupItem>)).toArray()}
+                     {this.state.qa.map(q => (<ListGroupItem>
+                                                    <Group group={q} />
+                                               </ListGroupItem>)).toArray()}
                     </ListGroup>
                   );
         return (<div>
