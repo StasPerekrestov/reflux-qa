@@ -15,17 +15,20 @@ var QAStore = Reflux.createStore({
 
 	},
 	init: function() {
+		this.questions = Immutable
+							.Map()
+							.set("name", "John Doe")
+							.set("ssn", "12342")
+							.set("state", "CA");
         this.listenTo(actions.load, this.reloadCallback);
     },
     reloadCallback: function() {
-        // $.ajax("/api/cars", {}).done(function(data) {
-        // 	debugger;
-        //     this.trigger(data.arrayOfCars);
-        // }.bind(this));
-		this.trigger([3, 4, 7, 8]);
+    	this.questions = this.questions
+    					.set("test", "test value");
+		this.trigger(this.questions);
     },
 	getDefaultData: function() {
-		return "the initial data";
+		return this.questions;
 	}
 });
 

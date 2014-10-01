@@ -1,27 +1,26 @@
 /** @jsx React.DOM */
 /*jshint node:true, browser: true*/
 
-var React   = require('react'),
-	Reflux  = require('reflux'),
-	Button  = require('react-bootstrap').Button,
-	Panel   = require('react-bootstrap').Panel,
-	qaStore = require('./qa-store.js'),
-	actions = require('./qa-actions.js');
+var React = require('react'),
+    Reflux = require('reflux'),
+    Button = require('react-bootstrap').Button,
+    Panel = require('react-bootstrap').Panel,
+    ListGroup = require('react-bootstrap').ListGroup,
+    ListGroupItem = require('react-bootstrap').ListGroupItem,
+    qaStore = require('./qa-store.js'),
+    actions = require('./qa-actions.js');
+    Immutable = require('immutable'),
+    Editor = require('./q-editor.js');
 
 var QA = React.createClass({
+    mixins: [Reflux.listenTo(qaStore, "onLoadChange")],
     onLoadChange: function(qa) {
         this.setState({
             qa: qa
         });
     },
     getInitialState: function(){
-    	return {qa: []};
-    },
-    componentDidMount: function() {
-        this.unsubscribe = qaStore.listen(this.onLoadChange);
-    },
-    componentWillUnmount: function() {
-        this.unsubscribe();
+    	return {qa: Immutable.Map()};
     },
     handleDoActionClick: function(){
     	actions.load();
@@ -36,7 +35,15 @@ var QA = React.createClass({
 		      </Panel>
 		    </div>
 		  );
-        return panelsInstance;
+        var listgroupInstance = (
+                    <ListGroup>
+                     {this.state.qa.map(q => (<ListGroupItem><Editor question={q} /></ListGroupItem>)).toArray()}
+                    </ListGroup>
+                  );
+        return (<div>
+                {panelsInstance}
+                {listgroupInstance}
+                </div>);
     }
 });
 
