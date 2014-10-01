@@ -20,14 +20,16 @@ var QA = React.createClass({
         });
     },
     getInitialState: function(){
-    	return {qa: Immutable.Map()};
+    	return {qa: Immutable.fromJS({groups:{}})};
     },
     handleDoActionClick: function(){
 
     },
+    handleGroupSelection: function(g){
+        actions.changeSelectedGroup(g);
+    },
     render: function() {
     	var title = (<h3>Test</h3>);
-
 		var panelsInstance = (
 		    <div>
 		      <Panel header={title}>
@@ -35,11 +37,13 @@ var QA = React.createClass({
 		      </Panel>
 		    </div>
 		  );
+        var key = this.state.qa.get('selectedGroup');
         var quesionGroups = (
-                    <TabbedArea>
-                     {this.state.qa.map((q, gName) => (<TabPane tab={gName} key={gName}>
-                                                            <Group group={q} />
-                                                        </TabPane>)).toArray()}
+                    <TabbedArea activeKey={this.state.qa.get('selectedGroup')} onSelect={this.handleGroupSelection}>
+                     {this.state.qa.get('groups').map((qa, groupName) => {
+                        return (<TabPane tab={groupName} key={groupName}>
+                                    <Group questions={this.state.qa.get('questions')} />
+                                </TabPane>);}).toArray()}
                     </TabbedArea>
                   );
         return (<div>

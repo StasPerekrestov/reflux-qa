@@ -4,7 +4,8 @@ var QAActions = Reflux.createActions([
   'load',         // initiates the async load
   'loadComplete', // when the load is complete
   'loadError',     // when the load has failed
-  'questionUpdated'
+  'questionUpdated',
+  'changeSelectedGroup'
 ]);
 
 module.exports = QAActions;

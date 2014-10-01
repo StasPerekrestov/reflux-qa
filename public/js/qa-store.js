@@ -18,56 +18,68 @@ var QAStore = Reflux.createStore({
 
 	},
 	init: function() {
-		this.questions = Immutable
-			.fromJS({
-				"Identification": {
-					"123": {
-						name: "insured",
-						type: "text",
-						value: "John Doe"
-					},
-					"124": {
-						name: "fax",
-						type: "text",
-						value: ""
-					},
-					"125": {
-						name: "ssn",
-						type: "text",
-						value: ""
-					}
+		var groups = Immutable.fromJS({
+			"Identification": ["123", "124", "125"],
+			"Policy Information": ["567"],
+			"Nature of Business": ["601"]
+		});
+		var questions = Immutable.fromJS({
+				"123": {
+					name: "insured",
+					type: "text",
+					value: "John Doe"
 				},
-				"section attrached": [],
-				"Policy Information": {
-					567: {
-						name: "expiration date",
-						type: "text",
-						value: ""
-					}
+				"124": {
+					name: "fax",
+					type: "text",
+					value: ""
 				},
-				"Nature of Business": {
-					601: {
-						name: "A property",
-						type: "text",
-						value: ""
-					}
+				"125": {
+					name: "ssn",
+					type: "text",
+					value: ""
+				},
+				"567": {
+					name: "expiration date",
+					type: "text",
+					value: ""
+				},
+				"601": {
+					name: "A property",
+					type: "text",
+					value: ""
 				}
-			}).filter(function(m) {
-				return m.count() > 0;
-			}).toMap();
+			});
 
-        this.listenTo(actions.load, this.reloadCallback);
-        this.listenTo(actions.questionUpdated, this.questionUpdatedCallback)
-    },
-    questionUpdatedCallback: function(id, newVal){
-    	this.questions = this.questions.updateIn(["Identification", id], q => q.set("value", newVal));
-    	this.trigger(this.questions);
-    },
-    reloadCallback: function() {
-		this.trigger(this.questions);
-    },
+		this.groups = groups;
+		this.questions = questions;
+		var selectedGroup = "Identification";
+		this.store = this.getNewState(selectedGroup);
+
+		this.listenTo(actions.load, this.reloadCallback);
+		this.listenTo(actions.questionUpdated, this.questionUpdatedCallback);
+		this.listenTo(actions.changeSelectedGroup, this.changeSelectedGroupCallback);
+	},
+	getNewState: function(selectedGroup){
+		var questionKeys = this.groups.get(selectedGroup);
+		var groupQuestions = questionKeys.reduce((r, n) => r.set(n, this.questions.get(n)), Immutable.Map());
+		return Immutable.fromJS({groups: this.groups, questions: groupQuestions, selectedGroup: selectedGroup});
+	},
+	questionUpdatedCallback: function(id, newVal) {
+		//todo: avoid duplicate questions store
+		this.questions = this.questions.updateIn([id], q => q.set("value", newVal));
+		this.store = this.store.updateIn(["questions", id], q => q.set("value", newVal));
+		this.trigger(this.store);
+	},
+	changeSelectedGroupCallback: function(groupNameToSelect){
+		this.store = this.getNewState(groupNameToSelect);
+		this.trigger(this.store);
+	},
+	reloadCallback: function() {
+		this.trigger(this.store);
+	},
 	getDefaultData: function() {
-		return this.questions;
+		return this.store;
 	}
 });
 
