@@ -6,16 +6,25 @@ var Reflux = require('reflux'),
 	Immutable = require('immutable');
 
 var QAStore = Reflux.createStore({
-	//listenables: actions,
+	listenables: actions,
 	onLoad: function() {
-
-
+		this.trigger(this.store);
 	},
 	onloadComplete: function() {
 
 	},
 	onloadError: function() {
 
+	},
+	onQuestionUpdated: function(id, newVal) {
+		//todo: avoid duplicate questions store
+		this.questions = this.questions.updateIn([id], q => q.set("value", newVal));
+		this.store = this.store.updateIn(["questions", id], q => q.set("value", newVal));
+		this.trigger(this.store);
+	},
+	onChangeSelectedGroup: function(groupNameToSelect) {
+		this.store = this.getNewState(groupNameToSelect);
+		this.trigger(this.store);
 	},
 	init: function() {
 		var groups = Immutable.fromJS({
@@ -55,28 +64,11 @@ var QAStore = Reflux.createStore({
 		this.questions = questions;
 		var selectedGroup = "Identification";
 		this.store = this.getNewState(selectedGroup);
-
-		this.listenTo(actions.load, this.reloadCallback);
-		this.listenTo(actions.questionUpdated, this.questionUpdatedCallback);
-		this.listenTo(actions.changeSelectedGroup, this.changeSelectedGroupCallback);
 	},
 	getNewState: function(selectedGroup){
 		var questionKeys = this.groups.get(selectedGroup);
 		var groupQuestions = questionKeys.reduce((r, n) => r.set(n, this.questions.get(n)), Immutable.Map());
 		return Immutable.fromJS({groups: this.groups, questions: groupQuestions, selectedGroup: selectedGroup});
-	},
-	questionUpdatedCallback: function(id, newVal) {
-		//todo: avoid duplicate questions store
-		this.questions = this.questions.updateIn([id], q => q.set("value", newVal));
-		this.store = this.store.updateIn(["questions", id], q => q.set("value", newVal));
-		this.trigger(this.store);
-	},
-	changeSelectedGroupCallback: function(groupNameToSelect){
-		this.store = this.getNewState(groupNameToSelect);
-		this.trigger(this.store);
-	},
-	reloadCallback: function() {
-		this.trigger(this.store);
 	},
 	getDefaultData: function() {
 		return this.store;
