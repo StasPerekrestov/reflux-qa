@@ -41,8 +41,8 @@ var QAStore = Reflux.createStore({
 		this.store = this.getNewState(selectedGroup); //empty store
 	},
 	getNewState: function(selectedGroup) {
-		var questionKeys = this.groups.get(selectedGroup);
-		var groupQuestions = questionKeys.reduce((r, n) => r.set(n, this.questions.get(n)), Immutable.Map());
+		var questionKeys = this.groups.get(selectedGroup),
+			groupQuestions = questionKeys.reduce((r, n) => r.set(n, this.questions.get(n)), Immutable.Map());
 		return Immutable.Map({
 			groups: this.groups,
 			questions: groupQuestions,
