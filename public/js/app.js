@@ -8,7 +8,7 @@ var React = require('react'),
     TabbedArea = require('react-bootstrap').TabbedArea,
     TabPane = require('react-bootstrap').TabPane,
     qaStore = require('./qa-store.js'),
-    actions = require('./qa-actions.js');
+    actions = require('./qa-actions.js'),
     Immutable = require('immutable'),
     Group = require('./q-group.js');
 
