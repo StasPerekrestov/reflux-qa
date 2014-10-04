@@ -16,4 +16,4 @@ bower install
 
 ## Usage
 * gulp watch
-* node src/static.js
+* node src/app.js
