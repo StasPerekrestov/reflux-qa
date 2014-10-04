@@ -8,15 +8,14 @@ var Reflux = require('reflux'),
 var QAStore = Reflux.createStore({
 	listenables: actions,
 	onLoad: function() {
-		/*
-			an ajax call may be performed
-			The current example inits required data in init method.
-
-			$.get('...', function(data){
-				//set state..
-			}.bind(this));
-		*/
-		this.trigger(this.store);
+		$.when($.get('/api/qa'), $.get('/api/groups'))
+		.then(function(qa, groups){
+			this.groups = Immutable.fromJS(groups[0]);
+			this.questions = Immutable.fromJS(qa[0]);
+			var selectedGroup = "Identification";
+			this.store = this.getNewState(selectedGroup);
+			this.trigger(this.store);
+		}.bind(this));
 	},
 	onloadComplete: function() {
 
@@ -36,48 +35,19 @@ var QAStore = Reflux.createStore({
 		this.trigger(this.store);
 	},
 	init: function() {
-		var groups = Immutable.fromJS({
-			"Identification": ["123", "124", "125"],
-			"Policy Information": ["567"],
-			"Nature of Business": ["601"]
-		});
-		var questions = Immutable.fromJS({
-				"123": {
-					name: "insured",
-					type: "text",
-					value: "John Doe"
-				},
-				"124": {
-					name: "fax",
-					type: "text",
-					value: ""
-				},
-				"125": {
-					name: "ssn",
-					type: "text",
-					value: ""
-				},
-				"567": {
-					name: "expiration date",
-					type: "text",
-					value: ""
-				},
-				"601": {
-					name: "A property",
-					type: "text",
-					value: ""
-				}
-			});
-
-		this.groups = groups;
-		this.questions = questions;
+		this.groups = Immutable.fromJS({"Identification":[]});
+		this.questions = Immutable.Map();
 		var selectedGroup = "Identification";
-		this.store = this.getNewState(selectedGroup);
+		this.store = this.getNewState(selectedGroup); //empty store
 	},
-	getNewState: function(selectedGroup){
+	getNewState: function(selectedGroup) {
 		var questionKeys = this.groups.get(selectedGroup);
 		var groupQuestions = questionKeys.reduce((r, n) => r.set(n, this.questions.get(n)), Immutable.Map());
-		return Immutable.Map({groups: this.groups, questions: groupQuestions, selectedGroup: selectedGroup});
+		return Immutable.Map({
+			groups: this.groups,
+			questions: groupQuestions,
+			selectedGroup: selectedGroup
+		});
 	},
 	getDefaultData: function() {
 		return this.store;
