@@ -10,7 +10,10 @@ var React = require('react'),
     qaStore = require('./qa-store.js'),
     actions = require('./qa-actions.js'),
     Immutable = require('immutable'),
-    Group = require('./q-group.js');
+    Group = require('./q-group.js'),
+    Grid = require('react-bootstrap').Grid,
+    Row = require('react-bootstrap').Row,
+    Col = require('react-bootstrap').Col;
 
 var QA = React.createClass({
     mixins: [Reflux.listenTo(qaStore, "onLoadChange")],
@@ -29,16 +32,9 @@ var QA = React.createClass({
         actions.changeSelectedGroup(g);
     },
     render: function() {
-    	var title = (<h3>Test</h3>);
-		var panelsInstance = (
-		    <div>
-		      <Panel header={title}>
-		        <Button  bsStyle="primary" onClick={this.handleDoActionClick}>Do action</Button>
-		      </Panel>
-		    </div>
-		  );
-        var key = this.state.qa.get('selectedGroup');
-        var quesionGroups = (
+    	var title = (<h3>Test</h3>),
+            key = this.state.qa.get('selectedGroup'),
+            quesionGroups = (
                     <TabbedArea activeKey={this.state.qa.get('selectedGroup')} onSelect={this.handleGroupSelection}>
                      {this.state.qa.get('groups').map((qa, groupName) => {
                         return (<TabPane tab={groupName} key={groupName}>
@@ -47,8 +43,13 @@ var QA = React.createClass({
                     </TabbedArea>
                   );
         return (<div>
-                {panelsInstance}
-                {quesionGroups}
+                    <Grid>
+                        <Row className="show-grid">
+                            <Col xs={6} md={6}>
+                                {quesionGroups}
+                            </Col>
+                        </Row>
+                    </Grid>
                 </div>);
     }
 });
