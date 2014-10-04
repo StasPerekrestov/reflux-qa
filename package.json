@@ -18,8 +18,9 @@
     }
   },
   "dependencies": {
+    "errorhandler": "^1.2.0",
+    "express": "^4.9.5",
     "immutable": "^2.0.17",
-    "node-static": "^0.7.5",
     "reflux": "^0.1.11"
   },
   "devDependencies": {
