@@ -47,13 +47,13 @@ function browserifyShare() {
 		});
 	}
 
-	b.add('./public/js/app.js');
+	b.add('./public/js/main.js');
 	bundleShare(b);
 };
 
 function bundleShare(b) {
 	b.bundle()
-		.pipe(source('app.js'))
+		.pipe(source('bundle.js'))
 		.pipe(gulp.dest('./public'))
 		.pipe(livereload());
 }
