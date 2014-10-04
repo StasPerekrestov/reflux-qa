@@ -8,6 +8,14 @@ var Reflux = require('reflux'),
 var QAStore = Reflux.createStore({
 	listenables: actions,
 	onLoad: function() {
+		/*
+			an ajax call may be performed
+			The current example inits required data in init method.
+
+			$.get('...', function(data){
+				//set state..
+			}.bind(this));
+		*/
 		this.trigger(this.store);
 	},
 	onloadComplete: function() {
