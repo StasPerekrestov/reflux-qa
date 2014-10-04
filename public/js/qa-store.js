@@ -18,6 +18,7 @@ var QAStore = Reflux.createStore({
 	},
 	onQuestionUpdated: function(id, newVal) {
 		//todo: avoid duplicate questions store
+		//currently it's a performance trick to avoid this.store = this.getNewState(selectedGroup);
 		this.questions = this.questions.updateIn([id], q => q.set("value", newVal));
 		this.store = this.store.updateIn(["questions", id], q => q.set("value", newVal));
 		this.trigger(this.store);
