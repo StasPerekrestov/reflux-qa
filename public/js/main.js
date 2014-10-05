@@ -16,8 +16,8 @@ var React = require('react'),
     Col = require('react-bootstrap').Col;
 
 var QA = React.createClass({
-    mixins: [Reflux.listenTo(qaStore, "onLoadChange")],
-    onLoadChange: function(qa) {
+    mixins: [Reflux.listenTo(qaStore, "onQaStoreChange")],
+    onQaStoreChange: function(qa) {
         this.setState({
             qa: qa
         });
