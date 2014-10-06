@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react'),
-	Editor = require('./q-editor.js');
+	Editor = require('./q-editor');
 
 var  Group = React.createClass({
 

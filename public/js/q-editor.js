@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react'),
 	Input = require('react-bootstrap').Input,
-	actions = require('./qa-actions.js');
+	actions = require('./qa-actions');
 
 var Editor = React.createClass({
 	handleValueChange: function(e){

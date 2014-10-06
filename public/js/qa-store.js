@@ -2,7 +2,7 @@
 //jsx is for ES6
 
 var Reflux = require('reflux'),
-	actions = require('./qa-actions.js'),
+	actions = require('./qa-actions'),
 	Immutable = require('immutable');
 
 var QAStore = Reflux.createStore({
