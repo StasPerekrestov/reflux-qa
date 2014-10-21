@@ -7,8 +7,9 @@ var  Group = React.createClass({
 	render: function(){
 		return (<div>
 					{this.props.questions.map((question, id) =>	{
-						//debugger;
-						return <Editor question={question.set('id', id)}/>;}).toArray()}
+						var questionWithId = question.set('id', id);
+						return (<Editor question={questionWithId}/>);
+					}).toArray()}
 				</div>);
 	}
 });
